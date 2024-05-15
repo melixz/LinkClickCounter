@@ -23,5 +23,5 @@ def shorten_link(token, original_url):
 # Использование функции
 if __name__ == "__main__":
     token = 'd6621232d6621232d662123291d57a5c0edd662d6621232b026f18d5f6848561516b2cc'
-    original_url = 'https://vk.com/'
+    original_url = input("Введите URL для сокращения: ")
     shorten_link(token, original_url)
