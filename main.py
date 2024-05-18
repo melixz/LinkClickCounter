@@ -2,6 +2,9 @@ import requests
 from urllib.parse import urlparse
 
 
+SHORTENED_LINK_DOMAINS = ['vk.cc']
+
+
 def shorten_link(token, original_url):
     url = 'https://api.vk.com/method/utils.getShortLink'
     params = {
@@ -54,7 +57,7 @@ def count_clicks(token, short_link_key, interval='forever', intervals_count=1, e
 
 def is_shorten_link(url):
     parsed_url = urlparse(url)
-    return parsed_url.netloc == 'vk.cc'
+    return parsed_url.netloc in SHORTENED_LINK_DOMAINS
 
 
 if __name__ == "__main__":
