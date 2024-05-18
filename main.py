@@ -1,8 +1,14 @@
+import os
 import requests
 from urllib.parse import urlparse
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 
 SHORTENED_LINK_DOMAINS = ['vk.cc']
+TOKEN = os.getenv('VK_API_TOKEN')
 
 
 def shorten_link(token, original_url):
@@ -61,17 +67,16 @@ def is_shorten_link(url):
 
 
 if __name__ == "__main__":
-    token = 'REDACTED'
     original_url = input("Введите URL для сокращения: ")
 
     try:
         if is_shorten_link(original_url):
             print("Введена уже сокращенная ссылка:", original_url)
             short_link_key = original_url.split('/')[-1]
-            count_clicks(token, short_link_key)  # Получение статистики переходов по ссылке
+            count_clicks(TOKEN, short_link_key)  # Получение статистики переходов по ссылке
         else:
-            short_url, short_link_key = shorten_link(token, original_url)
+            short_url, short_link_key = shorten_link(TOKEN, original_url)
             print("Сокращенная ссылка:", short_url)
-            count_clicks(token, short_link_key)  # Получение статистики переходов по ссылке
+            count_clicks(TOKEN, short_link_key)  # Получение статистики переходов по ссылке
     except Exception as e:
         print(str(e))
