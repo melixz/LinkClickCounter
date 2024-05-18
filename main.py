@@ -24,6 +24,7 @@ def shorten_link(token, original_url):
         error_msg = data['error']['error_msg']
         raise Exception(f"Ошибка API: {error_msg}")
 
+
 def count_clicks(token, short_link_key, interval='forever', intervals_count=1, extended=0):
     url = 'https://api.vk.com/method/utils.getLinkStats'
     params = {
@@ -51,12 +52,23 @@ def count_clicks(token, short_link_key, interval='forever', intervals_count=1, e
         raise Exception(f"Ошибка API: {error_msg}")
 
 
+def is_shorten_link(url):
+    parsed_url = urlparse(url)
+    return parsed_url.netloc == 'vk.cc'
+
+
 if __name__ == "__main__":
     token = 'd6621232d6621232d662123291d57a5c0edd662d6621232b026f18d5f6848561516b2cc'
     original_url = input("Введите URL для сокращения: ")
+
     try:
-        short_url, short_link_key = shorten_link(token, original_url)
-        print("Сокращенная ссылка:", short_url)
-        count_clicks(token, short_link_key)  # Получение статистики переходов по ссылке
+        if is_shorten_link(original_url):
+            print("Введена уже сокращенная ссылка:", original_url)
+            short_link_key = original_url.split('/')[-1]
+            count_clicks(token, short_link_key)  # Получение статистики переходов по ссылке
+        else:
+            short_url, short_link_key = shorten_link(token, original_url)
+            print("Сокращенная ссылка:", short_url)
+            count_clicks(token, short_link_key)  # Получение статистики переходов по ссылке
     except Exception as e:
         print(str(e))
