@@ -4,9 +4,6 @@ from urllib.parse import urlparse
 from dotenv import load_dotenv
 
 
-load_dotenv()
-
-
 SHORTENED_LINK_DOMAINS = ['vk.cc']
 TOKEN = os.getenv('VK_API_TOKEN')
 
@@ -67,6 +64,8 @@ def is_shorten_link(url):
 
 
 if __name__ == "__main__":
+    load_dotenv()
+
     original_url = input("Введите URL для сокращения: ")
 
     try:
