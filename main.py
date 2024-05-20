@@ -59,14 +59,14 @@ def is_shorten_link(url):
 def print_click_stats(stats):
     if stats:
         for stat in stats:
-            print(f"Дата начала: {stat['timestamp']}, Переходов: {stat['views']}")  # Перемещено из main.py:56
+            print(f"Дата начала: {stat['timestamp']}, Переходов: {stat['views']}")
     else:
-        print("Статистика переходов не найдена.")  # Перемещено из main.py:58
+        print("Статистика переходов не найдена.")
 
 
 if __name__ == "__main__":
     load_dotenv()
-    TOKEN = os.environ['VK_API_TOKEN']  # Перемещено в блок if __name__ == "__main__":
+    TOKEN = os.environ['VK_API_TOKEN']
 
     original_url = input("Введите URL для сокращения: ")
 
@@ -82,4 +82,4 @@ if __name__ == "__main__":
             stats = get_click_stats(TOKEN, short_link_key)
             print_click_stats(stats)
     except Exception as e:
-        print(str(e))
+        print(e)  # Убрано преобразование str(e)
