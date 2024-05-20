@@ -8,30 +8,30 @@ SHORTENED_LINK_DOMAINS = ['vk.cc']
 
 
 def shorten_link(token, original_url):
-    url = 'https://api.vk.com/method/utils.getShortLink'
+    api_url = 'https://api.vk.com/method/utils.getShortLink'
     params = {
         'v': '5.131',
         'url': original_url,
         'access_token': token
     }
 
-    response = requests.get(url, params=params)
+    response = requests.get(api_url, params=params)
     response.raise_for_status()
 
-    data = response.json()
+    response_data = response.json()
 
-    if 'response' in data:
-        short_url = data['response']['short_url']
+    if 'response' in response_data:
+        short_url = response_data['response']['short_url']
         parsed_url = urlparse(short_url)
         short_link_key = parsed_url.path.split('/')[-1]
         return short_url, short_link_key
     else:
-        error_msg = data['error']['error_msg']
-        raise Exception(f"Ошибка API: {error_msg}")
+        error_message = response_data['error']['error_msg']
+        raise Exception(f"Ошибка API: {error_message}")
 
 
 def count_clicks(token, short_link_key, interval='forever', intervals_count=1, extended=0):
-    url = 'https://api.vk.com/method/utils.getLinkStats'
+    api_url = 'https://api.vk.com/method/utils.getLinkStats'
     params = {
         'v': '5.131',
         'key': short_link_key,
@@ -41,20 +41,20 @@ def count_clicks(token, short_link_key, interval='forever', intervals_count=1, e
         'extended': extended
     }
 
-    response = requests.get(url, params=params)
+    response = requests.get(api_url, params=params)
     response.raise_for_status()
-    data = response.json()
+    response_data = response.json()
 
-    if 'response' in data:
-        stats = data['response']['stats']
-        if stats:
-            for stat in stats:
+    if 'response' in response_data:
+        link_stats = response_data['response']['stats']
+        if link_stats:
+            for stat in link_stats:
                 print(f"Дата начала: {stat['timestamp']}, Переходов: {stat['views']}")
         else:
             print("Статистика переходов не найдена.")
     else:
-        error_msg = data['error']['error_msg']
-        raise Exception(f"Ошибка API: {error_msg}")
+        error_message = response_data['error']['error_msg']
+        raise Exception(f"Ошибка API: {error_message}")
 
 
 def is_shorten_link(url):
@@ -72,10 +72,10 @@ if __name__ == "__main__":
         if is_shorten_link(original_url):
             print("Введена уже сокращенная ссылка:", original_url)
             short_link_key = original_url.split('/')[-1]
-            count_clicks(TOKEN, short_link_key)  # Получение статистики переходов по ссылке
+            count_clicks(TOKEN, short_link_key)
         else:
             short_url, short_link_key = shorten_link(TOKEN, original_url)
             print("Сокращенная ссылка:", short_url)
-            count_clicks(TOKEN, short_link_key)  # Получение статистики переходов по ссылке
+            count_clicks(TOKEN, short_link_key)
     except Exception as e:
         print(str(e))
