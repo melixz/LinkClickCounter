@@ -16,14 +16,14 @@ def shorten_link(token, original_url):
     }
 
     response = requests.get(url, params=params)
-    response.raise_for_status()  # Проверка на ошибки в запросе
+    response.raise_for_status()
 
     data = response.json()
 
     if 'response' in data:
         short_url = data['response']['short_url']
         parsed_url = urlparse(short_url)
-        short_link_key = parsed_url.path.split('/')[-1]  # Точное извлечение ключа с помощью urlparse
+        short_link_key = parsed_url.path.split('/')[-1]
         return short_url, short_link_key
     else:
         error_msg = data['error']['error_msg']
