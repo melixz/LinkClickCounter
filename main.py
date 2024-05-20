@@ -3,7 +3,6 @@ import requests
 from urllib.parse import urlparse
 from dotenv import load_dotenv
 
-
 SHORTENED_LINK_DOMAINS = ['vk.cc']
 
 
@@ -30,7 +29,7 @@ def shorten_link(token, original_url):
         raise Exception(f"Ошибка API: {error_message}")
 
 
-def count_clicks(token, short_link_key, interval='forever', intervals_count=1, extended=0):
+def get_click_stats(token, short_link_key, interval='forever', intervals_count=1, extended=0):
     api_url = 'https://api.vk.com/method/utils.getLinkStats'
     params = {
         'v': '5.131',
@@ -46,12 +45,7 @@ def count_clicks(token, short_link_key, interval='forever', intervals_count=1, e
     response_data = response.json()
 
     if 'response' in response_data:
-        link_stats = response_data['response']['stats']
-        if link_stats:
-            for stat in link_stats:
-                print(f"Дата начала: {stat['timestamp']}, Переходов: {stat['views']}")
-        else:
-            print("Статистика переходов не найдена.")
+        return response_data['response']['stats']
     else:
         error_message = response_data['error']['error_msg']
         raise Exception(f"Ошибка API: {error_message}")
@@ -62,9 +56,17 @@ def is_shorten_link(url):
     return parsed_url.netloc in SHORTENED_LINK_DOMAINS
 
 
+def print_click_stats(stats):
+    if stats:
+        for stat in stats:
+            print(f"Дата начала: {stat['timestamp']}, Переходов: {stat['views']}")  # Перемещено из main.py:56
+    else:
+        print("Статистика переходов не найдена.")  # Перемещено из main.py:58
+
+
 if __name__ == "__main__":
     load_dotenv()
-    TOKEN = os.environ['VK_API_TOKEN']
+    TOKEN = os.environ['VK_API_TOKEN']  # Перемещено в блок if __name__ == "__main__":
 
     original_url = input("Введите URL для сокращения: ")
 
@@ -72,10 +74,12 @@ if __name__ == "__main__":
         if is_shorten_link(original_url):
             print("Введена уже сокращенная ссылка:", original_url)
             short_link_key = original_url.split('/')[-1]
-            count_clicks(TOKEN, short_link_key)
+            stats = get_click_stats(TOKEN, short_link_key)
+            print_click_stats(stats)
         else:
             short_url, short_link_key = shorten_link(TOKEN, original_url)
             print("Сокращенная ссылка:", short_url)
-            count_clicks(TOKEN, short_link_key)
+            stats = get_click_stats(TOKEN, short_link_key)
+            print_click_stats(stats)
     except Exception as e:
         print(str(e))
