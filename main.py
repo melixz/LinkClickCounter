@@ -79,7 +79,5 @@ if __name__ == "__main__":
         else:
             short_url, short_link_key = shorten_link(TOKEN, original_url)
             print("Сокращенная ссылка:", short_url)
-            stats = get_click_stats(TOKEN, short_link_key)
-            print_click_stats(stats)
     except Exception as e:
-        print(e)  # Убрано преобразование str(e)
+        print(e)
