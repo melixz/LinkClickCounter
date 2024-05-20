@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 
 SHORTENED_LINK_DOMAINS = ['vk.cc']
-TOKEN = os.getenv('VK_API_TOKEN')
+TOKEN = os.environ['VK_API_TOKEN']
 
 
 def shorten_link(token, original_url):
