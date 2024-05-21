@@ -66,7 +66,7 @@ def print_click_stats(stats):
 
 if __name__ == "__main__":
     load_dotenv()
-    TOKEN = os.environ['VK_API_TOKEN']
+    token = os.environ['VK_API_TOKEN']
 
     original_url = input("Введите URL для сокращения: ")
 
@@ -74,10 +74,10 @@ if __name__ == "__main__":
         if is_shorten_link(original_url):
             print("Введена уже сокращенная ссылка:", original_url)
             short_link_key = original_url.split('/')[-1]
-            stats = get_click_stats(TOKEN, short_link_key)
+            stats = get_click_stats(token, short_link_key)
             print_click_stats(stats)
         else:
-            short_url, short_link_key = shorten_link(TOKEN, original_url)
+            short_url, short_link_key = shorten_link(token, original_url)
             print("Сокращенная ссылка:", short_url)
     except Exception as e:
         print(e)
