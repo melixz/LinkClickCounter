@@ -59,15 +59,19 @@ def is_shorten_link(url):
 
 def print_click_stats(stats):
     if stats:
-        for stat in stats:
-            print(f"Дата начала: {stat['timestamp']}, Переходов: {stat['views']}")
+        total_clicks = sum(stat['views'] for stat in stats)
+        print(f"По вашей ссылке перешли {total_clicks} раз")
     else:
         print("Статистика переходов не найдена.")
 
 
 if __name__ == "__main__":
     load_dotenv()
-    token = os.environ['VK_API_TOKEN']
+    token = os.environ.get('VK_API_TOKEN')
+
+    if not token:
+        print("Ошибка: Переменная окружения 'VK_API_TOKEN' не найдена. Пожалуйста, добавьте ее в .env файл.")
+        exit(1)
 
     parser = argparse.ArgumentParser(
         description="Сокращение ссылок и получение статистики кликов с использованием VK API")
@@ -84,12 +88,11 @@ if __name__ == "__main__":
 
     try:
         if is_shorten_link(original_url):
-            print("Введена уже сокращенная ссылка:", original_url)
             short_link_key = original_url.split('/')[-1]
             stats = get_click_stats(token, short_link_key, args.interval, args.intervals_count, args.extended)
             print_click_stats(stats)
         else:
             short_url, short_link_key = shorten_link(token, original_url)
-            print("Сокращенная ссылка:", short_url)
+            print(f"{original_url} -> {short_url}")
     except Exception as e:
-        print(e)
+        print(f"Произошла ошибка: {e}")
