@@ -24,8 +24,8 @@
 Для начала клонируйте публичный репозиторий:
 
 ```sh
-$ git clone https://github.com/melixz/LinkClickCounter
-$ cd LinkClickCounter
+git clone https://github.com/melixz/LinkClickCounter
+cd LinkClickCounter
 ```
 
 ### Шаг 2: Создание виртуального окружения
@@ -34,13 +34,13 @@ $ cd LinkClickCounter
 
 - Для macOS и Linux:
     ```sh
-    $ python -m venv venv
-    $ source venv/bin/activate
+    python -m venv venv
+    source venv/bin/activate
     ```
 - Для Windows:
     ```sh
-    $ python -m venv venv
-    $ venv\Scripts\activate
+    python -m venv venv
+    venv\Scripts\activate
     ```
 
 ### Шаг 3: Установка зависимостей
@@ -48,7 +48,7 @@ $ cd LinkClickCounter
 Установите необходимые зависимости:
 
 ```sh
-$ python -m pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
 ### Шаг 4: Настройка переменных окружения
@@ -64,7 +64,7 @@ VK_API_TOKEN=your_token_here
 Запустите скрипт с аргументом URL для сокращения или уже сокращенной ссылкой для получения статистики:
 
 ```sh
-$ python main.py <URL> [--interval <interval>] [--intervals_count <count>] [--extended <0|1>]
+python main.py <URL> [--interval <interval>] [--intervals_count <count>] [--extended <0|1>]
 ```
 
 ### Примеры использования
@@ -74,7 +74,7 @@ $ python main.py <URL> [--interval <interval>] [--intervals_count <count>] [--ex
 Для сокращения ссылки выполните следующую команду:
 
 ```sh
-$ python main.py https://example.com
+python main.py https://example.com
 ```
 
 **Ожидаемый результат**:
@@ -88,7 +88,7 @@ https://example.com -> https://vk.cc/shorturl
 Для получения статистики по ранее сокращенной ссылке выполните следующую команду:
 
 ```sh
-$ python main.py https://vk.cc/shorturl --interval=day --intervals_count=7 --extended=1
+python main.py https://vk.cc/shorturl --interval=day --intervals_count=7 --extended=1
 ```
 
 **Ожидаемый результат**:
