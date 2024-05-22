@@ -24,8 +24,8 @@
 Для начала клонируйте публичный репозиторий:
 
 ```sh
-$ git clone https://github.com/yourusername/link-click-counter.git
-$ cd link-click-counter
+$ git clone https://github.com/melixz/LinkClickCounter
+$ cd LinkClickCounter
 ```
 
 ### Шаг 2: Создание виртуального окружения
