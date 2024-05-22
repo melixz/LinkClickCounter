@@ -4,7 +4,6 @@
 
 Код написан в образовательных целях на онлайн-курсе для веб-разработчиков [dvmn.org.](dvmn.org.)
 
-
 ## Возможности
 
 - Сокращение URL-адресов с использованием API VK.
@@ -20,49 +19,80 @@
 
 ## Установка и настройка
 
-1. Склонируйте репозиторий:
+### Шаг 1: Клонирование репозитория
+
+Для начала клонируйте публичный репозиторий:
+
+```sh
+$ git clone https://github.com/yourusername/link-click-counter.git
+$ cd link-click-counter
+```
+
+### Шаг 2: Создание виртуального окружения
+
+Создайте виртуальное окружение и активируйте его:
+
+- Для macOS и Linux:
     ```sh
-    git clone https://github.com/yourusername/link-click-counter.git
-    cd link-click-counter
+    $ python -m venv venv
+    $ source venv/bin/activate
+    ```
+- Для Windows:
+    ```sh
+    $ python -m venv venv
+    $ venv\Scripts\activate
     ```
 
-2. Создайте файл `.env` и добавьте в него ваш токен API VK:
-    ```env
-    VK_API_TOKEN=your_token_here
-    ```
+### Шаг 3: Установка зависимостей
+
+Установите необходимые зависимости:
+
+```sh
+$ python -m pip install -r requirements.txt
+```
+
+### Шаг 4: Настройка переменных окружения
+
+Создайте файл `.env` в корне проекта и добавьте в него ваш токен API VK:
+
+```env
+VK_API_TOKEN=your_token_here
+```
 
 ## Использование
 
-### Запуск скрипта
-
 Запустите скрипт с аргументом URL для сокращения или уже сокращенной ссылкой для получения статистики:
+
 ```sh
-python main.py <URL> [--interval <interval>] [--intervals_count <count>] [--extended <0|1>]
+$ python main.py <URL> [--interval <interval>] [--intervals_count <count>] [--extended <0|1>]
 ```
-
-### Аргументы командной строки
-
-- **url**: URL для сокращения или уже сокращенная ссылка.
-- **--interval**: Интервал для получения статистики (по умолчанию: forever).
-- **--intervals_count**: Количество интервалов для получения статистики (по умолчанию: 1).
-- **--extended**: Получение расширенной статистики (0 или 1, по умолчанию: 0).
 
 ### Примеры использования
 
 #### Сокращение ссылки
+
+Для сокращения ссылки выполните следующую команду:
+
 ```sh
-python main.py https://example.com
+$ python main.py https://example.com
 ```
-**Вывод**:
+
+**Ожидаемый результат**:
+
 ```sh
 https://example.com -> https://vk.cc/shorturl
 ```
 
 #### Получение статистики по сокращенной ссылке
+
+Для получения статистики по ранее сокращенной ссылке выполните следующую команду:
+
 ```sh
-python main.py https://vk.cc/shorturl --interval=day --intervals_count=7 --extended=1
+$ python main.py https://vk.cc/shorturl --interval=day --intervals_count=7 --extended=1
 ```
-**Вывод**:
+
+**Ожидаемый результат**:
+
 ```sh
 По вашей ссылке перешли 15 раз
 ```
@@ -70,15 +100,7 @@ python main.py https://vk.cc/shorturl --interval=day --intervals_count=7 --exten
 ### Обработка ошибок
 
 В случае ошибки будет выведено сообщение с описанием проблемы:
+
 ```sh
 Произошла ошибка: Описание ошибки
 ```
-
-### Пример файла `.env`
-
-Создайте файл `.env` в корне проекта и добавьте в него ваш токен API VK:
-```env
-VK_API_TOKEN=your_token_here
-```
-
-Теперь ваш `README.md` полностью отражает функциональность скрипта и предоставляет пользователям все необходимые инструкции для использования.
